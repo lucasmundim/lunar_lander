@@ -10,21 +10,13 @@ if Gem::Version.new(Bundler::VERSION) <= Gem::Version.new("0.9.24")
 end
 
 begin
-  # Set up load paths for all bundled gems
-  ENV["BUNDLE_GEMFILE"] = File.expand_path("../../Gemfile", __FILE__)
-  Bundler.setup
-  Bundler.require
-rescue Bundler::GemNotFound
-  raise RuntimeError, "Bundler couldn't find some gems." +
-    "Did you run `bundle install`?"
-end
-
-module LunarLander
-  # Your code goes here...
+  Bundler.setup(:default)
+rescue Bundler::BundlerError => e
+  $stderr.puts e.message
+  $stderr.puts "Run `bundle install` to install missing gems"
+  exit e.status_code
 end
 
 require 'chingu'
 require 'lunar_lander/game'
 require 'lunar_lander/game_objects/player'
-
-LunarLander::Game.new.show

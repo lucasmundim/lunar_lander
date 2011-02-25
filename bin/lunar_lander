@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'bundler'
+require 'lunar_lander'
+LunarLander::Game.new.show
