@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "lunar_lander"
   s.version     = LunarLander::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Lucas Roxo Mundim"]
+  s.email       = ["lucas.mundim@gmail.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Moon landing simulator}
+  s.description = %q{Ruby version of 1979 Atari video game Lunar Lander}
 
   s.rubyforge_project = "lunar_lander"
 
