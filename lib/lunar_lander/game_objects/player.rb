@@ -7,9 +7,10 @@ module LunarLander
     end
     
     def setup
+      @engine_sound = Gosu::Sound["fierce_wind.wav"].play(1,1,true)
+      @engine_sound.pause
       self.acceleration_y = 0.01
       self.velocity_y = 1
-      
       @particle_animation = Chingu::Animation.new(:file => "particle.png", :size => [32,32])
     end
 
@@ -68,6 +69,11 @@ module LunarLander
         particle.y -= Gosu::offset_y(@angle, 10 + rand(4))
         particle.x -= Gosu::offset_x(@angle, 10 + rand(4))
       }
+      @engine_sound.resume unless @engine_sound.playing?
+    end
+    
+    def stop_engine
+      @engine_sound.pause
     end
   end
 end
