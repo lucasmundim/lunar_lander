@@ -81,5 +81,9 @@ module LunarLander
       self.velocity_x = 0
       self.velocity_y = 0
     end
+    
+    def die
+      Gosu::Sound["explosion.wav"].play
+    end
   end
 end
