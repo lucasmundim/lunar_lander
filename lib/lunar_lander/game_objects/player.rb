@@ -1,6 +1,7 @@
 module LunarLander
   class Player < Chingu::GameObject
     trait :velocity
+    trait :bounding_box
     
     def initialize(options={})
       super(options.merge(:image => Gosu::Image["player.png"]))
@@ -74,6 +75,11 @@ module LunarLander
     
     def stop_engine
       @engine_sound.pause
+    end
+    
+    def stop
+      self.velocity_x = 0
+      self.velocity_y = 0
     end
   end
 end

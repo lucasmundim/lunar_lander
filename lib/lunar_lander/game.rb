@@ -10,6 +10,8 @@ module LunarLander
       @player = Player.create({ :x => width/2, :y => height/2})
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
       @background = Gosu::Image["moon.png"]
+      
+      @surface = Chingu::Rect.new(0,height-50, 800, 50)
     end
     
     def update
@@ -19,6 +21,10 @@ module LunarLander
           object.outside_window? || object.color.alpha == 0
         end
       }
+      
+      if @player.bounding_box.collide_rect?(@surface)
+        @player.stop
+      end
     end
     
     def draw
