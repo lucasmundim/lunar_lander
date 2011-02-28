@@ -52,8 +52,8 @@ module LunarLander
     end
     
     def thrust
-      self.velocity_x += Gosu::offset_x(@angle, 0.02)
-      self.velocity_y += Gosu::offset_y(@angle, 0.02)
+      self.velocity_x += Gosu::offset_x(@angle, 0.05)
+      self.velocity_y += Gosu::offset_y(@angle, 0.05)
 
       Chingu::Particle.create( 
         :x => @x - Gosu::offset_x(@angle, 20), 
