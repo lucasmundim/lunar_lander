@@ -1,7 +1,7 @@
 module LunarLander
   class Game < Chingu::Window
     def initialize
-      super
+      super(800,600)
       Gosu::Image.autoload_dirs << File.join(File.expand_path(File.dirname(__FILE__)), "..", "media")
       Gosu::Sound.autoload_dirs << File.join(File.expand_path(File.dirname(__FILE__)), "..", "media")
       
@@ -9,6 +9,7 @@ module LunarLander
       
       @player = Player.create({ :x => width/2, :y => height/2})
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
+      @background = Gosu::Image["moon.png"]
     end
     
     def update
@@ -18,6 +19,11 @@ module LunarLander
           object.outside_window? || object.color.alpha == 0
         end
       }
+    end
+    
+    def draw
+      super
+      @background.draw(0,0,0)
     end
   end
 end
