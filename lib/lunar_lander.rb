@@ -19,4 +19,6 @@ end
 
 require 'chingu'
 require 'lunar_lander/game'
+require 'lunar_lander/game_states/play'
+require 'lunar_lander/game_states/pause'
 require 'lunar_lander/game_objects/player'
