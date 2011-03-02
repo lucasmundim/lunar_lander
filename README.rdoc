@@ -22,4 +22,4 @@ Ruby version of 1979 Atari video game Lunar Lander
 
 == Copyright
 
-Copyright (c) 2011 Lucas Mundim. See LICENSE.txt for further details.
+Copyright (c) 2011 Lucas Mundim, Marcelo Murad. See LICENSE.txt for further details.
