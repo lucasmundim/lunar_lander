@@ -85,5 +85,11 @@ module LunarLander
     def die
       Gosu::Sound["explosion.wav"].play
     end
+    
+    def update
+      super
+      @x %= $window.width
+      #@y %= 480
+    end
   end
 end
