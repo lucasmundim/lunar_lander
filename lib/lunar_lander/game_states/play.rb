@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module LunarLander
   class Play < Chingu::GameState
     def setup
@@ -47,6 +48,8 @@ module LunarLander
         if @player.should_die?
           @player.die
           switch_game_state LunarLander::Gameover
+        else
+          switch_game_state LunarLander::Leveldone  
         end
         @player.stop
       end
