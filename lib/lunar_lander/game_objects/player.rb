@@ -86,6 +86,10 @@ module LunarLander
       Gosu::Sound["explosion.wav"].play
     end
     
+    def should_die?
+      velocity_x > 0.5 or velocity_y > 0.4 or angle.abs > 5
+    end
+    
     def update
       super
       @x %= $window.width

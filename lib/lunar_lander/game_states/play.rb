@@ -19,7 +19,7 @@ module LunarLander
       }
       
       if @player.bounding_box.collide_rect?(@surface)
-        if @player.velocity_x > 0.5 or @player.velocity_y > 0.4 or @player.angle.abs > 5
+        if @player.should_die?
           @player.die
           switch_game_state LunarLander::Gameover
         end
