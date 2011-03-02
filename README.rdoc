@@ -4,11 +4,16 @@ Ruby version of 1979 Atari video game Lunar Lander
 
 == Install instructions
 
+
+  # From github
   git clone git://github.com/lucasmundim/lunar_lander.git
   cd lunar_lander
   gem install bundler
   bundle install
   rake run
+
+  # From rubygems
+  (sudo) gem install lunar_lander
 
 == Contributing to lunar_lander
 
