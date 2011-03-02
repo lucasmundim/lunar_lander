@@ -83,6 +83,7 @@ module LunarLander
     end
     
     def die
+      @engine_sound.stop
       Gosu::Sound["explosion.wav"].play
     end
     
