@@ -36,11 +36,15 @@ module LunarLander
     
     def update_hud
       if @player
-         @velocity_x_text.text = "Velocidade Lateral: #{(@player.velocity_x * 10).ceil.abs}"
-         @velocity_y_text.text = "Velocidade Vertical: #{(@player.velocity_y * 10).ceil * -1}"
-         @angle_text.text = "Ângulo: #{@player.angle}"
-         @fuel_text.text = "Combustível: #{@player.fuel.ceil}"
+         update_text_if_needed(@velocity_x_text, "Velocidade Lateral: #{(@player.velocity_x * 10).ceil.abs}")
+         update_text_if_needed(@velocity_y_text, "Velocidade Vertical: #{(@player.velocity_y * 10).ceil * -1}")
+         update_text_if_needed(@angle_text, "Ângulo: #{@player.angle}")
+         update_text_if_needed(@fuel_text, "Combustível: #{@player.fuel.ceil}")
       end
+    end
+    
+    def update_text_if_needed(text_instance, text)
+      text_instance.text = text unless text_instance.text == text
     end
     
     def test_colision
