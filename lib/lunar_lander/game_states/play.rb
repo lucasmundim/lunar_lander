@@ -2,7 +2,7 @@
 module LunarLander
   class Play < Chingu::GameState
     def setup
-      self.input = { :p => LunarLander::Pause }
+      self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out }
       
       @player = Player.create({ :x => $window.width/2, :y => $window.height/2})
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
@@ -11,6 +11,22 @@ module LunarLander
       @surface = Chingu::Rect.new(0, $window.height-50, 800, 50)
       
       setup_hud
+    end
+    
+    def zoom_in
+      game_objects.each do |game_object|
+        game_object.factor += 0.01
+      end
+      Chingu::Particle.all.each do |p| p.factor += 0.01 end
+      puts game_objects.last.factor
+    end
+    
+    def zoom_out
+      game_objects.each do |game_object|
+        game_object.factor -= 0.01
+      end
+      Chingu::Particle.all.each do |p| p.factor -= 0.01 end
+      puts game_objects.last.factor
     end
     
     def update
