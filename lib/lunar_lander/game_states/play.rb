@@ -18,7 +18,6 @@ module LunarLander
         game_object.factor += 0.01
       end
       Chingu::Particle.all.each do |p| p.factor += 0.01 end
-      puts game_objects.last.factor
     end
     
     def zoom_out
@@ -26,7 +25,6 @@ module LunarLander
         game_object.factor -= 0.01
       end
       Chingu::Particle.all.each do |p| p.factor -= 0.01 end
-      puts game_objects.last.factor
     end
     
     def update
