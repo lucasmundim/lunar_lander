@@ -10,8 +10,8 @@ module LunarLander
       @player = Player.new
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
       
-      @background = Gosu::Image["moon.png"]
       @surface = Chingu::Rect.new(0, $window.height-50, 800, 50)
+      @background = Gosu::Image["earth.png"]
       
       setup_hud
       @factor = 1
@@ -94,7 +94,7 @@ module LunarLander
         
     def draw
       super
-      @background.draw(0,0,0)
+      @background.draw(($window.width / 2) - (@background.width * 0.5)/2, ($window.height / 2) - (@background.height * 0.5) / 2, 0, 0.5, 0.5)
       
         @player.draw
     end
