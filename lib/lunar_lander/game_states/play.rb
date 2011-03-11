@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 module LunarLander
   class Play < Chingu::GameState
+    trait :timer
+    
     def setup
-      self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out }
+      self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out, :c => :cinema_zoom }
       
       @player = Player.new
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
@@ -11,20 +13,32 @@ module LunarLander
       @surface = Chingu::Rect.new(0, $window.height-50, 800, 50)
       
       setup_hud
+      @factor = 1
+    end
+    
+    def cinema_zoom
+      during(3000) do
+        zoom_in
+      end
     end
     
     def zoom_in
-      game_objects.each do |game_object|
-        game_object.factor += 0.01
-      end
-      Chingu::Particle.all.each do |p| p.factor += 0.01 end
+      @factor += 0.001
+      zoom_by_factor
     end
     
     def zoom_out
+      @factor -= 0.001
+      zoom_by_factor
+    end
+    
+    def zoom_by_factor
       game_objects.each do |game_object|
-        game_object.factor -= 0.01
+        next if game_object.kind_of? Chingu::Text
+        game_object.factor = @factor
       end
-      Chingu::Particle.all.each do |p| p.factor -= 0.01 end
+      @player.factor = @factor
+      Chingu::Particle.all.each do |p| p.factor = @factor end
     end
     
     def destroy_particles
