@@ -6,14 +6,14 @@ module LunarLander
     attr_accessor :fuel
     
     def setup
-      @engine_sound = Gosu::Sound["fierce_wind.wav"].play(1,1,true)
       @x = $window.width / 2
       @y = $window.height / 2
       self.image = Gosu::Image["player.png"]
+      @engine_sound = Gosu::Sound["fierce_wind.wav"].play(1, 1, true)
       @engine_sound.pause
       self.acceleration_y = 0.01
       self.velocity_y = 1
-      @particle_animation = Chingu::Animation.new(:file => "particle.png", :size => [32,32])
+      @particle_animation = Chingu::Animation.new(:file => "particle.png", :size => [32, 32])
       @fuel = 100.0
     end
 

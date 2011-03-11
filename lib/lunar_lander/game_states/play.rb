@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 module LunarLander
+  
   class Play < Chingu::GameState
     trait :timer
     
