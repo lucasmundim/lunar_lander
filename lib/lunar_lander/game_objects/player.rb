@@ -101,7 +101,6 @@ module LunarLander
     
     def update
       super
-      @x %= $window.width
       @engine_sound.stop if @fuel == 0
     end
   end

@@ -5,7 +5,7 @@ module LunarLander
     trait :timer
     
     def setup
-      self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out, :c => :cinema_zoom }
+      self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out, :c => :cinema_zoom, :holding_d => :camera_right, :holding_a => :camera_left }
       
       @player = Player.new
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
@@ -13,8 +13,24 @@ module LunarLander
       @surface = Chingu::Rect.new(0, $window.height-50, 800, 50)
       @background = Gosu::Image["earth.png"]
       
+      @moon = Gosu::Image["moon.png"]
+      @parallax = Chingu::Parallax.create(:x => 0, :y => $window.height - @moon.height, :rotation_center => :top_left, :zorder => 1)
+      @parallax << { :image => @moon, :repeat_x => true, :repeat_y => false}
       setup_hud
       @factor = 1
+    end
+    
+    def camera_left
+      @parallax.camera_x -= 2
+    end
+
+    def camera_right
+      @parallax.camera_x += 2
+    end
+    
+    def adjust_parallax_viewport	
+      @parallax.camera_x += @player.velocity_x if @player.x > $window.width * 0.8 or @player.x < $window.width * 0.2
+      @parallax.camera_y += @player.velocity_y if @player.y < $window.height * 0.2 or (@player.y > $window.height * 0.2 and @parallax.camera_y < -($window.height - @moon.height)) 
     end
     
     def cinema_zoom
@@ -37,6 +53,10 @@ module LunarLander
       game_objects.each do |game_object|
         next if game_object.kind_of? Chingu::Text
         game_object.factor = @factor
+        if game_object.kind_of? Chingu::Parallax
+          game_object.layers.each do |p| p.factor = @factor end
+          game_object.y = $window.height - (@moon.height * game_object.factor)
+        end
       end
       @player.factor = @factor
       Chingu::Particle.all.each do |p| p.factor = @factor end
@@ -82,6 +102,18 @@ module LunarLander
       end
     end
     
+    def restrict_player_movement
+      if @player.x > $window.width * 0.8
+        @player.x = $window.width * 0.8
+      elsif @player.x < $window.width * 0.2
+        @player.x = $window.width * 0.2
+      end
+      if @player.y > $window.height * 0.2 and @parallax.camera_y < -($window.height - @moon.height)
+        @player.y = $window.height * 0.2 
+      elsif @player.y < $window.height * 0.2
+        @player.y = $window.height * 0.2
+      end
+    end
     
     def update
       super
@@ -90,13 +122,31 @@ module LunarLander
       destroy_particles
       test_colision
       update_hud
+      adjust_parallax_viewport
+      restrict_player_movement
     end
         
     def draw
       super
       @background.draw(($window.width / 2) - (@background.width * 0.5)/2, ($window.height / 2) - (@background.height * 0.5) / 2, 0, 0.5, 0.5)
+
+      offset_x = 0
+      if @player.x > $window.width * 0.8
+        offset_x = -(@player.x - $window.width * 0.8)
+      elsif @player.x < $window.width * 0.2
+        offset_x = -(@player.x - $window.width * 0.2)
+      end
       
+      offset_y = 0
+      if @player.y > $window.height * 0.2 and @parallax.camera_y < -($window.height - @moon.height)
+        offset_y = -(@player.y - $window.height * 0.2)
+      elsif @player.y < $window.height * 0.2
+        offset_y = -(@player.y - $window.height * 0.2)
+      end
+      
+      $window.translate(offset_x, offset_y) do
         @player.draw
+      end
     end
   end
 end
