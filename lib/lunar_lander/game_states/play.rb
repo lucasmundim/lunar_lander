@@ -10,12 +10,14 @@ module LunarLander
       @player = Player.new
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
       
-      @surface = Chingu::Rect.new(0, $window.height-50, 800, 50)
       @background = Gosu::Image["earth.png"]
       
       @moon = Gosu::Image["moon.png"]
       @parallax = Chingu::Parallax.create(:x => 0, :y => $window.height - @moon.height, :rotation_center => :top_left, :zorder => 1)
       @parallax << { :image => @moon, :repeat_x => true, :repeat_y => false}
+      
+      @surface = Chingu::Rect.new(0, $window.height-@moon.height + 60, $window.width, @moon.height - 60)
+      
       setup_hud
       @factor = 1
     end
