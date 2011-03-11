@@ -5,12 +5,11 @@ module LunarLander
     
     attr_accessor :fuel
     
-    def initialize(options={})
-      super(options.merge(:image => Gosu::Image["player.png"]))
-    end
-    
     def setup
       @engine_sound = Gosu::Sound["fierce_wind.wav"].play(1,1,true)
+      @x = $window.width / 2
+      @y = $window.height / 2
+      self.image = Gosu::Image["player.png"]
       @engine_sound.pause
       self.acceleration_y = 0.01
       self.velocity_y = 1

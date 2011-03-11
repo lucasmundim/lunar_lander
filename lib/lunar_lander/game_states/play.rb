@@ -4,7 +4,7 @@ module LunarLander
     def setup
       self.input = { :p => LunarLander::Pause, :holding_z => :zoom_in, :holding_x => :zoom_out }
       
-      @player = Player.create({ :x => $window.width/2, :y => $window.height/2})
+      @player = Player.new
       @player.input = {:holding_left => :rotate_left, :holding_right => :rotate_right, :holding_up => :thrust, :released_up => :stop_engine}
       
       @background = Gosu::Image["moon.png"]
@@ -27,18 +27,12 @@ module LunarLander
       Chingu::Particle.all.each do |p| p.factor -= 0.01 end
     end
     
-    def update
-      super
-      
-      game_objects.destroy_if { |object| 
+    def destroy_particles
+      game_objects.destroy_if do |object| 
         if object.kind_of? Chingu::Particle
           object.outside_window? || object.color.alpha == 0
         end
-      }
-      
-      test_colision
-      
-       update_hud
+      end
     end
     
     def setup_hud
@@ -74,10 +68,20 @@ module LunarLander
     end
     
     
+    def update
+      super
+      @player.update_trait
+      @player.update
+      destroy_particles
+      test_colision
+      update_hud
+    end
+        
     def draw
       super
       @background.draw(0,0,0)
       
+        @player.draw
     end
   end
 end
